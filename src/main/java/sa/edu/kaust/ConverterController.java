@@ -38,26 +38,11 @@ public class ConverterController {
             @RequestParam(value="query", required=true) String query,
             @RequestParam(value="pattern", required=true) String pattern,
             HttpServletResponse response) {
-        response.setContentType("application/owl");
+        response.setContentType("application/rdf+xml");
         response.setHeader("Content-disposition", "attachment; filename=ontology.owl");
         try {
             OutputStream os = response.getOutputStream();
             OWLOntology ontology = manager.createOntology();
-
-
-            String sq2= "PREFIX up:<http://purl.uniprot.org/core/>\n"+
-                    "PREFIX keywords:<http://purl.uniprot.org/keywords/>\n"+
-                    "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>\n"+
-                    "SELECT DISTINCT ?protein ?db ?link\n"+
-                    "WHERE{\n"+
-                    "?protein a up:Protein .\n"+
-                    "?protein up:classifiedWith keywords:3 .\n"+
-                    "?protein rdfs:seeAlso ?link .\n"+
-                    "?link up:database ?db .\n"+
-                    "?db up:category '3D structure databases'} LIMIT 10\n";
-
-            String relationalPattern = "(has-relation1 some ?protein) SubClassOf(has-relation some ?db or ?db)";
-            String sparqlEndpoint = "http://sparql.uniprot.org/";
 
             // upon submmit
             ResultSet results = this.sparql2OWL.getSparqlResults(query, endpoint);
