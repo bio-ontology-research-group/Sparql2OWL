@@ -1,1 +1,1 @@
-# rdf2owl
+# RDF2OWL
