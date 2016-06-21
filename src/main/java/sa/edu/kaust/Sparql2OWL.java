@@ -26,18 +26,41 @@ public class Sparql2OWL {
         final  String iri = "www.somewhere.net/#";
         final OWLOntology ontology = manager.createOntology();
 
-        String sq2= "PREFIX up:<http://purl.uniprot.org/core/> PREFIX keywords:<http://purl.uniprot.org/keywords/> PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> SELECT DISTINCT ?protein ?db ?link WHERE{ ?protein a up:Protein . ?protein up:classifiedWith keywords:3 . ?protein rdfs:seeAlso ?link . ?link up:database ?db . ?db up:category '3D structure databases'} LIMIT 10";
+        //while(submit){
+        String sparqlQuery1= "PREFIX up:<http://purl.uniprot.org/core/> PREFIX keywords:<http://purl.uniprot.org/keywords/> PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
+        SELECT DISTINCT ?protein ?db ?link WHERE{ ?protein a up:Protein . 
+        ?protein up:classifiedWith keywords:3 . ?protein rdfs:seeAlso ?link . 
+        ?link up:database ?db . ?db up:category '3D structure databases'} LIMIT 10";
 
-        String relationalPattern = "(has-relation1 some ?protein) SubClassOf(has-relation some ?db or ?db)";
-        String sparqlEndpoint = "http://sparql.uniprot.org/";
+        String relationalPattern1 = "(has-relation1 some ?protein) SubClassOf(has-relation some ?db or ?db)";
+        String sparqlEndpoint1= "http://sparql.uniprot.org/";
 
-        //upon submmit
+
+        String sparqlQuery2 = "PREFIX GO: <http://purl.uniprot.org/go/>
+                PREFIX taxon:<http://purl.uniprot.org/taxonomy/>
+                PREFIX up: <http://purl.uniprot.org/core/>
+                PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+                SELECT DISTINCT ?protein ?ontid WHERE {
+                ?protein up:classifiedWith ?ontid .
+                FILTER regex(str(?ontid),\"GO+\")} LIMIT 10";
+        
+        String relationalPattern2 = "?protein SubClassOf(has-relation some ?ontid)"
+        results = getSparqlResults(sq1, sparqlEndpoint);
+        OWLOntology newOntology = createOntologyFromSparql(results, relationalPattern1, ontology,dataFactory, manager,iri);
+
+        OWLOntologyMerger merger = new OWLOntologyMerger(manager);
+
         ResultSet results = getSparqlResults(sq2, sparqlEndpoint);
-        OWLOntology newOntology = createOntologyFromSparql(results, relationalPattern, ontology,dataFactory, manager,iri);
+        newOntology = createOntologyFromSparql(results, relationalPattern2,ontology, dataFactory, manager, iri);
 
+        //}
 
+         //before save, loop over all reference ontologies from index page, this is exmaple
+        OWLImportsDeclaration imports = manager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create("http://purl.obolibrary.org/obo/hp.owl"));
+        manager.applyChange(new AddImport(ontology, imports));
+
+        
         //upon save
-
         manager.saveOntology(ontology,System.out);
 
 
