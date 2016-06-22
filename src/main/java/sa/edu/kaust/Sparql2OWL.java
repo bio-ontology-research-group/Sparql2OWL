@@ -26,7 +26,7 @@ public class Sparql2OWL {
         final  String iri = "www.somewhere.net/#";
         final OWLOntology ontology = manager.createOntology();
 
-        //while(submit){
+        //while(submit is clicked){ this is example with just two
         String sparqlQuery1= "PREFIX up:<http://purl.uniprot.org/core/> PREFIX keywords:<http://purl.uniprot.org/keywords/> PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> 
         SELECT DISTINCT ?protein ?db ?link WHERE{ ?protein a up:Protein . 
         ?protein up:classifiedWith keywords:3 . ?protein rdfs:seeAlso ?link . 

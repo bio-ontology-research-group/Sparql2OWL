@@ -33,6 +33,20 @@
         <textarea id="endpoint" name="endpoint" class="form-control" placeholder="SPARQL Endpoint" required="required"></textarea>
         <textarea id="pattern" name="pattern" class="form-control" placeholder="Relational Pattern" required="required"></textarea>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
+
+      <label for="refOntology">Import Reference Ontologies</label><br/>
+        <select name="refOntology" multiple >
+          <option value="http://purl.obolibrary.org/obo/hp.owl">Human Phenotype Ontology</option>
+          <option value="http://purl.obolibrary.org/obo/go.owl">Gene Ontology</option>
+          <option value="http://purl.obolibrary.org/obo/ncbitaxon.owl">NCBI taxonomy Ontology</option>
+          <option value="http://purl.obolibrary.org/obo/ro.owl">Relational Ontology</option>
+          <option value="http://purl.obolibrary.org/obo/uberon.owl">Uberon Ontology</option>
+          <option value="http://purl.obolibrary.org/obo/pato.owl">Phenotypic Quality Ontology</option>
+          <option value="http://purl.obolibrary.org/obo/chebi.owl">Chebi Ontology</option>
+        </select>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save Ontology</button>
+
       </form>
 
     </div>
