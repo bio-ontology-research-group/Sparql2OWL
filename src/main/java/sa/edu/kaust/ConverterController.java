@@ -34,9 +34,10 @@ public class ConverterController {
 
     @RequestMapping(value = "/convert", method = RequestMethod.POST)
     public void convert(
-            @RequestParam(value="endpoint", required=true) String endpoint,
-            @RequestParam(value="query", required=true) String query,
-            @RequestParam(value="pattern", required=true) String pattern,
+            @RequestParam(value="hendpoint", required=true) String endpoint,
+            @RequestParam(value="hquery", required=true) String query,
+            @RequestParam(value="hpattern", required=true) String pattern,
+            @RequestParam(value="refOntology", required=true) String refOnts,
             HttpServletResponse response) {
         response.setContentType("application/rdf+xml");
         response.setHeader("Content-disposition", "attachment; filename=ontology.owl");
@@ -45,8 +46,18 @@ public class ConverterController {
             OWLOntology ontology = manager.createOntology();
 
             // upon submmit
-            ResultSet results = this.sparql2OWL.getSparqlResults(query, endpoint);
-            OWLOntology newOntology = this.sparql2OWL.createOntologyFromSparql(results, pattern, ontology, dataFactory, manager, IRI);
+            String[] enpoints = endpoint.split(":::");
+            String[] queries = query.split(":::");
+            String[] patterns = pattern.split(":::");
+            for (int i = 0; i < queries.length; i++) {
+                ResultSet results = this.sparql2OWL.getSparqlResults(queries[i], endpoints[i]);
+                OWLOntology newOntology = this.sparql2OWL.createOntologyFromSparql(results, patterns[i], ontology, dataFactory, manager, IRI);
+            }
+            String[] imports = refOnts.split(",");
+            for (String import: imports) {
+                OWLImportsDeclaration imp = manager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create(import));
+                manager.applyChange(new AddImport(ontology, imp));
+            }
             manager.saveOntology(ontology, os);
             os.flush();
         } catch (Exception e) {

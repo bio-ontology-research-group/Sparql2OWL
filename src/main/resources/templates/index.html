@@ -26,36 +26,49 @@
   <body>
 
     <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <form class="form">
+            <h2>Please fill the form</h2>
+            <textarea id="query" name="query" class="form-control" placeholder="Query" required="required"></textarea>
+            <textarea id="endpoint" name="endpoint" class="form-control" placeholder="SPARQL Endpoint" required="required"></textarea>
+            <textarea id="pattern" name="pattern" class="form-control" placeholder="Relational Pattern" required="required"></textarea>
+            <button class="btn btn-primary" id="submit">Submit</button>
+            <button class="btn btn-primary" id="reset">Reset</button>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <form action="convert" method="post" class="form">
+            <table class="table table-stripped">
+              <thead>
+                <th>Query</th>
+                <th>SPARQL Endpoint</th>
+                <th>Relational Pattern</th>
+              </thead>
+              <tbody id="tBody">
 
-        <h2 class="form-rdf2owl-heading">Please fill the form</h2>
-        <textarea id="query" name="query" class="form-control" placeholder="Query" required="required"></textarea>
-        <textarea id="endpoint" name="endpoint" class="form-control" placeholder="SPARQL Endpoint" required="required"></textarea>
-        <textarea id="pattern" name="pattern" class="form-control" placeholder="Relational Pattern" required="required"></textarea>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
+              </tbody>
+            </table>
+            <input type="hidden" id="hquery" name="hquery" />
+            <input type="hidden" id="hendpoint" name="hendpoint"/>
+            <input type="hidden" id="hpattern" name="hpattern"/>
+            <label for="refOntology">Import Reference Ontologies</label>
+            <select class="form-control" name="refOntology" multiple="multiple" >
+              <option value="http://purl.obolibrary.org/obo/hp.owl">Human Phenotype Ontology</option>
+              <option value="http://purl.obolibrary.org/obo/go.owl">Gene Ontology</option>
+              <option value="http://purl.obolibrary.org/obo/ncbitaxon.owl">NCBI taxonomy Ontology</option>
+              <option value="http://purl.obolibrary.org/obo/ro.owl">Relational Ontology</option>
+              <option value="http://purl.obolibrary.org/obo/uberon.owl">Uberon Ontology</option>
+              <option value="http://purl.obolibrary.org/obo/pato.owl">Phenotypic Quality Ontology</option>
+              <option value="http://purl.obolibrary.org/obo/chebi.owl">Chebi Ontology</option>
+            </select>
+            <button class="btn btn-lg btn-primary" type="submit">Save Ontology</button>
 
-      <form class="form-rdf2owl" action="convert" method="post">
-
-        <label for="refOntology">Import Reference Ontologies</label><br/>
-        <select name="refOntology" multiple="multiple" >
-          <option value="http://purl.obolibrary.org/obo/hp.owl">Human Phenotype Ontology</option>
-          <option value="http://purl.obolibrary.org/obo/go.owl">Gene Ontology</option>
-          <option value="http://purl.obolibrary.org/obo/ncbitaxon.owl">NCBI taxonomy Ontology</option>
-          <option value="http://purl.obolibrary.org/obo/ro.owl">Relational Ontology</option>
-          <option value="http://purl.obolibrary.org/obo/uberon.owl">Uberon Ontology</option>
-          <option value="http://purl.obolibrary.org/obo/pato.owl">Phenotypic Quality Ontology</option>
-          <option value="http://purl.obolibrary.org/obo/chebi.owl">Chebi Ontology</option>
-        </select>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Save Ontology</button>
-
-      </form>
-
+          </form>
+        </div>
+      </div>
     </div>
   </body>
   <script type="text/javascript" src="/jquery/jquery.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-
-    });
-  </script>
+  <script type="text/javascript" src="/js/script.js"></script>
 </html>
