@@ -27,7 +27,6 @@
 
     <div class="container">
 
-      <form class="form-rdf2owl" action="convert" method="post">
         <h2 class="form-rdf2owl-heading">Please fill the form</h2>
         <textarea id="query" name="query" class="form-control" placeholder="Query" required="required"></textarea>
         <textarea id="endpoint" name="endpoint" class="form-control" placeholder="SPARQL Endpoint" required="required"></textarea>
@@ -35,8 +34,10 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
 
-      <label for="refOntology">Import Reference Ontologies</label><br/>
-        <select name="refOntology" multiple >
+      <form class="form-rdf2owl" action="convert" method="post">
+
+        <label for="refOntology">Import Reference Ontologies</label><br/>
+        <select name="refOntology" multiple="multiple" >
           <option value="http://purl.obolibrary.org/obo/hp.owl">Human Phenotype Ontology</option>
           <option value="http://purl.obolibrary.org/obo/go.owl">Gene Ontology</option>
           <option value="http://purl.obolibrary.org/obo/ncbitaxon.owl">NCBI taxonomy Ontology</option>
@@ -51,4 +52,10 @@
 
     </div>
   </body>
+  <script type="text/javascript" src="/jquery/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+    });
+  </script>
 </html>
