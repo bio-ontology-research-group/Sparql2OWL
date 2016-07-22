@@ -1,6 +1,58 @@
 
 body {
-  padding-top: 40px;
+  padding-top: 60px;
   padding-bottom: 40px;
   background-color: #eee;
+}
+
+
+.example-buttons-wrapper {
+	margin:15px 0 13px 0;
+}
+
+#convert-form {
+	margin-top: 61px;
+}
+
+#convert-form label {
+	margin: 0px 0px 11px 15px;
+}
+
+#convert-form select {
+	height: 166px;
+	margin-bottom: 15px;
+}
+
+.step-header h2 {
+	text-align: center;
+	margin-top: 40px;
+	margin-bottom: 45px;
+}
+
+.step-index {
+    background: #d2d2d2;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    margin: 20px auto;
+    font-size: 18px;
+
+    -webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+    
+}
+
+.step-index.completed {
+	background: #55b37b !important;
+}
+
+#query-counter {
+	padding: 15px;
+}
+
+.btn-secondary {
+	background-color: #dddddd; /* browsers have different colors for buttonface, so override bootstrap style */
 }

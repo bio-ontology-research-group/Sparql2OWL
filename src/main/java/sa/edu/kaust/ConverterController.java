@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.*;
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 import org.apache.jena.query.*;
@@ -20,7 +22,7 @@ import sa.edu.kaust.Sparql2OWL;
 
 @Controller
 public class ConverterController {
-    private final static String IRI = "www.somewhere.net/#";
+    private final static String iri = "www.somewhere.net/#";
     OWLDataFactory dataFactory;
     OWLOntologyManager manager;
     Sparql2OWL sparql2OWL;
@@ -39,23 +41,31 @@ public class ConverterController {
             @RequestParam(value="hpattern", required=true) String pattern,
             @RequestParam(value="refOntology", required=true) String refOnts,
             HttpServletResponse response) {
+
+        // Generate file name
+        SimpleDateFormat format = new SimpleDateFormat();
+        format = new SimpleDateFormat("yyyyMMdd_hhmmss");
+        String filename = "ontology_" + format.format(new Date()) + ".owl";
+
+
         response.setContentType("application/rdf+xml");
-        response.setHeader("Content-disposition", "attachment; filename=ontology.owl");
+        response.setHeader("Content-disposition", "attachment; filename=" + filename);
         try {
             OutputStream os = response.getOutputStream();
             OWLOntology ontology = manager.createOntology();
 
             // upon submmit
-            String[] enpoints = endpoint.split(":::");
-            String[] queries = query.split(":::");
-            String[] patterns = pattern.split(":::");
+            String separator = ":::[\\r\\n]+";
+            String[] endpoints = endpoint.split(separator);
+            String[] queries = query.split(separator);
+            String[] patterns = pattern.split(separator);
             for (int i = 0; i < queries.length; i++) {
                 ResultSet results = this.sparql2OWL.getSparqlResults(queries[i], endpoints[i]);
-                OWLOntology newOntology = this.sparql2OWL.createOntologyFromSparql(results, patterns[i], ontology, dataFactory, manager, IRI);
+                OWLOntology newOntology = this.sparql2OWL.createOntologyFromSparql(results, patterns[i], ontology, dataFactory, manager, iri);
             }
             String[] imports = refOnts.split(",");
-            for (String import: imports) {
-                OWLImportsDeclaration imp = manager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create(import));
+            for (String import1: imports) {
+                OWLImportsDeclaration imp = manager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create(import1));
                 manager.applyChange(new AddImport(ontology, imp));
             }
             manager.saveOntology(ontology, os);
