@@ -22,6 +22,7 @@ public class Sparql2OWL {
         final  String iri = "www.somewhere.net/#";
         final OWLOntology ontology = manager.createOntology();
 
+
     }
 
     public boolean checkInput(List<String> list, String[] strArr) {

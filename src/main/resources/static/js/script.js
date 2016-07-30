@@ -6,13 +6,15 @@ $(document).ready(function(){
 	       'PREFIX sio: <http://semanticscience.org/resource/>\n' +
 	       'PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>\n'+
 
-	       'SELECT DISTINCT ?gene ?disease  WHERE {\n'+ 
-	       '?gda sio:SIO_000628 ?disease,?gene .\n'+
-	       '?gene rdf:type ncit:C16612 .\n'+
+		'SELECT DISTINCT ?gene ?disease  WHERE {\n'+
+		'?gda sio:SIO_000628 ?disease,?gene .\n'+
+		'?gene rdf:type ncit:C16612 .\n'+
 		'?disease dcterms:title ?diseaseName . FILTER (str(?diseaseName) = "Obesity")\n'+
-		'?disease rdf:type ncit:C7057 } limit 20',
-        
-	pattern: '?disease SubClassOf(has-causation some ?disease)',
+		'?disease rdf:type ncit:C7057 } limit 20',       
+
+
+ 
+	pattern: '?gene SubClassOf(has-causation some ?disease)',
         endpoint: 'http://rdf.disgenet.org/sparql/'
     },
     {
